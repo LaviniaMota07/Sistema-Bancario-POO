@@ -10,7 +10,7 @@ public class Main {
         ArrayList<Gerente> gerentes = new ArrayList<>();
         ArrayList<Transacao> transacoes = new ArrayList<>();
         ArrayList<ContaPoupanca> contasPoupanca = new ArrayList<>();
-
+        ArrayList<Cliente> clientes = new ArrayList<>();
 
         while (true) {
             System.out.println("===== Banco em Java =====");
@@ -333,6 +333,9 @@ public class Main {
             }
 
             if (opcao == 9) {
+                while (true) {
+                    
+                
                 System.out.println("=== Submenu ====");
                 System.out.println("1. Submenu A - Operações de Conta");
                 System.out.println("2. Submenu B - Gestão de Clientes");
@@ -342,7 +345,26 @@ public class Main {
 
 
                 if (sub == 1) { //Submenu A
-                    while (true) {
+                    {
+                    entrada.nextLine();
+                    System.out.print("Digite o número da conta: ");
+                        String numeroContaBusca = entrada.nextLine(); //Para que se possa ter acesso a uma conta especifica
+                        
+                        
+                        Conta contaSelecionada = null; //Identifcar uma conta e selecionar 
+                        for (Conta conta : contas) {
+                            if (conta.getNumeroConta().equals(numeroContaBusca)) {
+                                contaSelecionada = conta;
+                                break;
+                            }
+                        }
+                        
+                        if (contaSelecionada == null) { 
+                            System.out.println("Conta não encontrada.");
+                            continue; // volta para o submenu
+                        }
+                        
+                         {
                         System.out.println("\n=== Submenu A ===");
                         System.out.println("1. Depositar dinheiro");
                         System.out.println("2. Sacar dinheiro");
@@ -351,24 +373,7 @@ public class Main {
                         System.out.print("Escolha: ");
 
                         int opcao1 = entrada.nextInt();
-
-                        entrada.nextLine(); // limpa buffer
-                        System.out.print("Digite o número da conta: ");
-                        String numeroContaBusca = entrada.nextLine(); //Para que se possa ter acesso a uma conta especifica
-
-                        Conta contaSelecionada = null; //Identifcar uma conta e selecionar 
-                        for (Conta conta : contas) {
-                            if (conta.getNumeroConta().equals(numeroContaBusca)) {
-                                contaSelecionada = conta;
-                                break;
-                            }
-                        }
-
-                        if (contaSelecionada == null) { 
-                            System.out.println("Conta não encontrada.");
-                            continue; // volta para o submenu
-                        }
-
+                        
                         switch (opcao1) {
                             case 1:        
                                 System.out.print("Valor para depositar: ");
@@ -390,47 +395,135 @@ public class Main {
                                 contaSelecionada.consultarSaldo();
                                 break;
                             case 4:
-                                return;  // sair
-                            default:
-                                System.out.println("Opção inválida.");
+                               System.out.println("Voltando...");    
+                                break;// sair
+                            
+                                
                         }
                     }
-                    
-                } else if (sub == 2) { //Submenu B
-                    while (true) {
-                        System.out.println("=== Submenu B ===");
-                        System.out.println("1. Listar clientes");
-                        System.out.println("2. Listar contas");
-                        System.out.println("3. Excluir cliente");
-                        System.out.println("4. Voltar");
-                        System.out.print("Escolha: ");
-                        int opcao2 = entrada.nextInt();
+                }
+                } if (sub == 2) { //Submenu B
+                {
+                    System.out.println("=== Submenu B ===");
+                    System.out.println("1. Listar clientes");
+                    System.out.println("2. Listar contas");
+                    System.out.println("3. Excluir cliente");
+                    System.out.println("4. Voltar");
+                    System.out.print("Escolha: ");
+                    int opcao2 = entrada.nextInt();
 
-                        switch (opcao2) {
-                            case 1:
-                                System.out.println("Listando clientes...");
-                                break;
-                            case 2:
-                                System.out.println("Listando contas...");
-                                break;
-                            case 3:
-                                System.out.println("Excluindo cliente...");
-                                break;
-                            case 4:
-                                System.out.println("Voltando...");
-                                return;
-                            default:
-                                System.out.println("Opção inválida.");
-                        }
+                    switch (opcao2) {
+                        case 1:
+                            System.out.println("=== LISTA DE CLIENTES ===");
+                            if (clientes.isEmpty()) {
+                                System.out.println("Nenhum cliente cadastrado.");
+                            } else {
+                                for (int i = 0; i < clientes.size(); i++) {
+                                    Cliente cliente = clientes.get(i);
+                                    System.out.println("--- Cliente " + (i + 1) + " ---");
+                                    System.out.println("Nome: " + cliente.getNome());
+                                    System.out.println("CPF: " + cliente.getCpf());
+                                    System.out.println("Email: " + cliente.getEmail());
+                                    System.out.println("Telefone: " + cliente.getTelefone());
+                                    System.out.println("Endereço: " + cliente.getEndereco());
+                                    System.out.println("Data de Nascimento: " + cliente.getDataNascimento());
+                                    System.out.println("Número da Conta: " + cliente.getNumeroConta());
+                                    System.out.println();
+                                }
+                                System.out.println("Total de clientes: " + clientes.size());
+                            }
+                            break;
+                        case 2:
+                            System.out.println("=== LISTA DE CONTAS ===");
+                            if (contas.isEmpty()) {
+                                System.out.println("Nenhuma conta cadastrada.");
+                            } else {
+                                for (int i = 0; i < contas.size(); i++) {
+                                    Conta conta = contas.get(i);
+                                    System.out.println("--- Conta " + (i + 1) + " ---");
+                                    System.out.println("Número: " + conta.getNumeroConta());
+                                    System.out.println("Cliente: " + conta.getCliente());
+                                    System.out.println("Saldo: R$ " + String.format("%.2f", conta.getSaldo()));
+                                    System.out.println("Agência: " + conta.getAgencia());
+                                    System.out.println("Tipo: " + conta.getTipoConta());
+                                    System.out.println("Status: " + conta.getStatus());
+                                    System.out.println("Data de Abertura: " + conta.getDataAbertura());
+                                    System.out.println();
+                                }
+                                System.out.println("Total de contas: " + contas.size());
+                            }
+                            break;
+                        case 3:
+                            System.out.println("=== EXCLUIR CLIENTE ===");
+                            if (clientes.isEmpty()) {
+                                System.out.println("Nenhum cliente cadastrado para excluir.");
+                            } else {
+                                // Primeiro, listar todos os clientes
+                                System.out.println("Clientes cadastrados:");
+                                for (int i = 0; i < clientes.size(); i++) {
+                                    Cliente cliente = clientes.get(i);
+                                    System.out.println((i + 1) + ". " + cliente.getNome() + " (CPF: " + cliente.getCpf() + ")");
+                                }
+                                
+                                System.out.print("Digite o número do cliente que deseja excluir (0 para cancelar): ");
+                                int numeroCliente = entrada.nextInt();
+                                
+                                if (numeroCliente == 0) {
+                                    System.out.println("Operação cancelada.");
+                                } else if (numeroCliente < 1 || numeroCliente > clientes.size()) {
+                                    System.out.println("Número inválido. Operação cancelada.");
+                                } else {
+                                    Cliente clienteParaExcluir = clientes.get(numeroCliente - 1);
+                                    
+                                    // Confirmação antes de excluir
+                                    System.out.println("Tem certeza que deseja excluir o cliente:");
+                                    System.out.println("Nome: " + clienteParaExcluir.getNome());
+                                    System.out.println("CPF: " + clienteParaExcluir.getCpf());
+                                    System.out.print("Digite 1 para confirmar ou qualquer outro número para cancelar: ");
+                                    int confirmacao = entrada.nextInt();
+                                    
+                                    if (confirmacao == 1) {
+                                        clientes.remove(numeroCliente - 1);
+                                        System.out.println("Cliente " + clienteParaExcluir.getNome() + " excluído com sucesso!");
+                                        
+                                        
+                                        String cpfExcluido = clienteParaExcluir.getCpf();
+                                        boolean contaRemovida = false;
+                                        
+                                        for (int i = contas.size() - 1; i >= 0; i--) {
+                                            
+                                            if (contas.get(i).getCliente().equalsIgnoreCase(clienteParaExcluir.getNome())) {
+                                                contas.remove(i);
+                                                contaRemovida = true;
+                                            }
+                                        }
+                                        
+                                        if (contaRemovida) {
+                                            System.out.println("Contas associadas ao cliente também foram removidas.");
+                                        }
+                                        
+                                    } else {
+                                        System.out.println("Exclusão cancelada.");
+                                    }
+                                }
+                            }
+                            break;
+                        case 4:
+                            System.out.println("Voltando para menu de submenus...");
+                            break; 
+                        default:
+                            System.out.println("Opção inválida.");
                     }
-                } else if (sub == 0) {
+                }
+                } if (sub == 0) {
                     System.out.println("Voltando ao menu principal...");
-                } else {
+                    break;
+                } if (sub < 0 || sub > 2) {
                     System.out.println("Opção inválida.");
                 }
                 continue;
             }
-
+}
             if(opcao == 10){
                 entrada.nextLine(); // limpa o buffer
 
