@@ -361,7 +361,7 @@ public class Main {
                         
                         if (contaSelecionada == null) { 
                             System.out.println("Conta não encontrada.");
-                            continue; // volta para o submenu
+                            continue;
                         }
                         
                          {
@@ -458,7 +458,7 @@ public class Main {
                             if (clientes.isEmpty()) {
                                 System.out.println("Nenhum cliente cadastrado para excluir.");
                             } else {
-                                // Primeiro, listar todos os clientes
+                            
                                 System.out.println("Clientes cadastrados:");
                                 for (int i = 0; i < clientes.size(); i++) {
                                     Cliente cliente = clientes.get(i);
