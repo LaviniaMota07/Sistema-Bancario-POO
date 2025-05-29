@@ -6,7 +6,9 @@ public class Main {
         Scanner entrada = new Scanner(System.in);
         ArrayList<Conta> contas = new ArrayList<>();
         ArrayList<ChavePix> chavesPix = new ArrayList<>();
-
+        ArrayList<Emprestimo> emprestimos = new ArrayList<>();
+        ArrayList<Gerente> gerentes = new ArrayList<>();
+        ArrayList<Transacao> transacoes = new ArrayList<>();
 
         while (true) {
             System.out.println("===== Banco em Java =====");
@@ -125,6 +127,74 @@ public class Main {
                 System.out.println("Agência cadastrada com sucesso: " + novaAgencia);
             }
 
+            if(opcao == 4){
+                entrada.nextLine(); // limpa o buffer
+                System.out.print("Nome do gerente: ");
+                String nome = entrada.nextLine();
+
+                System.out.print("Matrícula: ");
+                String matricula = entrada.nextLine();
+
+                System.out.print("Email: ");
+                String email = entrada.nextLine();
+
+                System.out.print("Telefone: ");
+                String telefone = entrada.nextLine();
+
+                System.out.print("Agência: ");
+                String agencia = entrada.nextLine();
+
+                System.out.print("Cargo: ");
+                String cargo = entrada.nextLine();
+
+                System.out.print("Salário: ");
+                double salario = entrada.nextDouble();
+
+                // Criar o objeto Gerente
+                Gerente novoGerente = new Gerente(nome, matricula, email, telefone, agencia, cargo, salario);
+
+                // Adicionar na lista
+                gerentes.add(novoGerente);
+
+                System.out.println("Gerente cadastrado com sucesso: " + novoGerente.nome);
+            }
+
+            if(opcao == 5){
+                 entrada.nextLine(); // Limpa buffer
+                System.out.print("Número da Transação: ");
+                String numeroTransacao = entrada.nextLine();
+
+                System.out.print("Valor: ");
+                double valor = entrada.nextDouble();
+                entrada.nextLine();
+
+                System.out.print("Data (YYYY-MM-DD): ");
+                String data = entrada.nextLine();
+
+                System.out.print("Tipo (Crédito/Débito/Transferência): ");
+                String tipo = entrada.nextLine();
+
+                System.out.print("Conta Origem: ");
+                String contaOrigem = entrada.nextLine();
+
+                System.out.print("Conta Destino: ");
+                String contaDestino = entrada.nextLine();
+
+                System.out.print("Status (Pendente/Concluída/Cancelada): ");
+                String status = entrada.nextLine();
+
+                // Criar a transação
+                Transacao novaTransacao = new Transacao(numeroTransacao, valor, data, tipo, contaOrigem, contaDestino, status);
+
+                // Adicionar à lista
+                transacoes.add(novaTransacao);
+
+                System.out.println("Transação registrada com sucesso!");
+
+                // Exibir
+                novaTransacao.exibirTransacao();
+            }
+
             if(opcao == 6){
                 entrada.nextLine(); // limpa buffer
                 System.out.print("Número do cartão: ");
@@ -156,6 +226,60 @@ public class Main {
                 Cartao novoCartao = new Cartao(numeroCartao, validade, CVV, bandeira, tipo, cliente, limite);
 
                 System.out.println("Cartão emitido para: " + novoCartao.cliente.getNome());
+            }
+
+            if(opcao == 7) {
+                entrada.nextLine(); // Limpa buffer
+                System.out.print("Nome do cliente: ");
+                String nomeCliente = entrada.nextLine();
+
+                Cliente clienteEncontrado = null;
+
+                // Procurar cliente na lista de contas
+                for (Conta conta : contas) {
+                    if (conta.getCliente().equalsIgnoreCase(nomeCliente)) {
+                        clienteEncontrado = new Cliente(
+                            nomeCliente, "", "", "", "", "", conta.getNumeroConta()
+                        );
+                        break;
+                    }
+                }
+
+                if (clienteEncontrado == null) {
+                    System.out.println("Cliente não encontrado. Não é possível solicitar empréstimo.");
+                } else {
+                    System.out.print("Número do empréstimo: ");
+                    String numeroEmprestimo = entrada.nextLine();
+
+                    System.out.print("Valor do empréstimo: ");
+                    double valor = entrada.nextDouble();
+
+                    System.out.print("Quantidade de parcelas: ");
+                    int parcelas = entrada.nextInt();
+
+                    System.out.print("Taxa de juros (Ex.: 0.02 para 2%): ");
+                    double taxaJuros = entrada.nextDouble();
+                    entrada.nextLine(); // limpa buffer
+
+                    System.out.print("Data da contratação (YYYY-MM-DD): ");
+                    String dataContratacao = entrada.nextLine();
+
+                    System.out.print("Status do empréstimo (Ativo/Inativo): ");
+                    String status = entrada.nextLine();
+
+                    // Criar empréstimo
+                    Emprestimo novoEmprestimo = new Emprestimo(
+                        numeroEmprestimo, valor, parcelas, taxaJuros, dataContratacao, clienteEncontrado, status
+                    );
+
+                    emprestimos.add(novoEmprestimo);
+
+                    System.out.println("Empréstimo solicitado com sucesso para " + clienteEncontrado.getNome());
+
+                    // Exibir resumo
+                    System.out.printf("Valor total a pagar: R$ %.2f\n", novoEmprestimo.calcularValorTotal());
+                    System.out.printf("Valor de cada parcela: R$ %.2f\n", novoEmprestimo.calcularValorParcela());
+                }
             }
 
             if(opcao == 8){
