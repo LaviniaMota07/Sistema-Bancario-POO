@@ -4,20 +4,21 @@ public class Conta {
     private String agencia;
     private String status;
     private String dataAbertura;
-    private String Cliente;
+    private String cliente;
     private String tipoConta;
-
-    public Conta (String numeroConta, double saldo, String agencia, String status, String dataAbertura, String Cliente, String tipoConta){
+    
+    //Construtor
+    public Conta (String numeroConta, double saldo, String agencia, String status, String dataAbertura, String cliente, String tipoConta){
         this.numeroConta = numeroConta;
         this.saldo = saldo;
         this.agencia = agencia;
         this.status = status;
         this.dataAbertura = dataAbertura;
-        this.Cliente = Cliente;
+        this.cliente = cliente;
         this.tipoConta = tipoConta;
     }
 
-    // Getters
+    // Getters e Setters
     public String getNumeroConta() {
         return numeroConta;
     }
@@ -39,14 +40,13 @@ public class Conta {
     }
 
     public String getCliente() {
-        return Cliente;
+        return cliente;
     }
 
     public String getTipoConta() {
         return tipoConta;
     }
 
-    // Setters
     public void setNumeroConta(String numeroConta) {
         this.numeroConta = numeroConta;
     }
@@ -68,7 +68,7 @@ public class Conta {
     }
 
     public void setCliente(String Cliente) {
-        this.Cliente = Cliente;
+        this.cliente = Cliente;
     }
 
     public void setTipoConta(String tipoConta) {
@@ -100,7 +100,7 @@ public class Conta {
                 ", agencia='" + agencia + '\'' +
                 ", status='" + status + '\'' +
                 ", dataAbertura='" + dataAbertura + '\'' +
-                ", cliente='" + Cliente + '\'' +
+                ", cliente='" + cliente + '\'' +
                 ", tipoConta='" + tipoConta + '\'' +
                 '}';
     }

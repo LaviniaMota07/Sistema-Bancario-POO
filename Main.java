@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner entrada = new Scanner(System.in);
         ArrayList<Conta> contas = new ArrayList<>();
+        ArrayList<ChavePix> chavesPix = new ArrayList<>();
 
 
         while (true) {
@@ -22,20 +23,44 @@ public class Main {
             System.out.print("Escolha uma opção: ");
             int opcao = entrada.nextInt();
 
-            if (!entrada.hasNextInt()) {
+            /*if (!entrada.hasNextInt()) {
                 System.out.println("Resposta inválida.");
                 entrada.nextLine();
                 continue;
-            }
+            }*/
 
             if (opcao < 1 || opcao > 10) {
                 System.out.println("Resposta inválida.");
                 continue;
             }
 
-            if (opcao == 10) {
-                System.out.println("Saindo...");
-                break;
+            if(opcao == 1){
+                entrada.nextLine(); // limpa buffer
+                System.out.print("Nome do cliente: ");
+                String nome = entrada.nextLine();
+
+                System.out.print("CPF do cliente: ");
+                String cpf = entrada.nextLine();
+
+                System.out.print("Endereço: ");
+                String endereco = entrada.nextLine();
+
+                System.out.print("Telefone: ");
+                String telefone = entrada.nextLine();
+
+                System.out.print("Email: ");
+                String email = entrada.nextLine();
+
+                System.out.print("Data de nascimento: ");
+                String dataNascimento = entrada.nextLine();
+
+                System.out.print("Número da conta associada: ");
+                String numeroConta = entrada.nextLine();
+
+                Cliente cliente = new Cliente(nome, cpf, endereco, telefone, email, dataNascimento, numeroConta);
+
+                System.out.println("Cliente cadastrado com sucesso: " + cliente.getNome());
+                continue;
             }
 
             if(opcao == 2){
@@ -100,6 +125,91 @@ public class Main {
                 System.out.println("Agência cadastrada com sucesso: " + novaAgencia);
             }
 
+            if(opcao == 6){
+                entrada.nextLine(); // limpa buffer
+                System.out.print("Número do cartão: ");
+                String numeroCartao = entrada.nextLine();
+
+                System.out.print("Validade (MM/AA): ");
+                String validade = entrada.nextLine();
+
+                System.out.print("CVV: ");
+                String CVV = entrada.nextLine();
+
+                System.out.print("Bandeira: ");
+                String bandeira = entrada.nextLine();
+
+                System.out.print("Tipo (Crédito/Débito): ");
+                String tipo = entrada.nextLine();
+
+                System.out.print("Limite: ");
+                double limite = entrada.nextDouble();
+                entrada.nextLine(); // limpa buffer
+
+                System.out.print("CPF do cliente: ");
+                String cpfBusca = entrada.nextLine();
+
+                // Aqui você pode buscar o cliente correspondente (se quiser manter uma lista de clientes)
+                Cliente cliente = new Cliente("nome teste", cpfBusca, "endereço", "tel", "email", "data", "num conta");
+                // ou pode melhorar depois para buscar cliente já cadastrado
+
+                Cartao novoCartao = new Cartao(numeroCartao, validade, CVV, bandeira, tipo, cliente, limite);
+
+                System.out.println("Cartão emitido para: " + novoCartao.cliente.getNome());
+            }
+
+            if(opcao == 8){
+                entrada.nextLine(); // Limpa o buffer
+
+                System.out.print("Digite a chave Pix: ");
+                String chave = entrada.nextLine();
+
+                System.out.print("Tipo de chave (CPF/Email/Telefone): ");
+                String tipo = entrada.nextLine();
+
+                System.out.print("Nome do cliente: ");
+                String nomeCliente = entrada.nextLine();
+
+                Cliente clienteEncontrado = null;
+
+                for (Conta conta : contas) { //Esse é um laço de repetição (for-each) que percorre todas as contas cadastradas na ArrayList<Conta> contas. 
+                                             //Cada conta da lista é temporariamente chamada de conta dentro do bloco { }.
+                    if (conta.getCliente().equalsIgnoreCase(nomeCliente)) { // Verifica se o nome do cliente associado à conta é igual ao nomeCliente que o usuário digitou.
+                                                                            //conta.getCliente() pega o nome do cliente dessa conta e equalsIgnoreCase(nomeCliente) compara se são iguais, ignorando maiúsculas e minúsculas.
+                        clienteEncontrado = new Cliente(
+                            nomeCliente, 
+                            "", "", "", "", "", 
+                            conta.getNumeroConta()
+                        );
+                        break;
+                    }
+                }
+
+                if (clienteEncontrado == null) {
+                    System.out.println("Cliente não encontrado. Não é possível criar a chave Pix.");
+                } else {
+                    System.out.print("Data de criação (YYYY-MM-DD): ");
+                    String dataCriacao = entrada.nextLine();
+
+                    System.out.print("Status da chave (Ativa/Inativa): ");
+                    String status = entrada.nextLine();
+
+                    System.out.print("Banco: ");
+                    String banco = entrada.nextLine();
+
+                    System.out.print("Agência: ");
+                    String agencia = entrada.nextLine();
+
+                    ChavePix novaChavePix = new ChavePix(
+                        chave, tipo, clienteEncontrado, dataCriacao, status, banco, agencia
+                    );
+
+                    chavesPix.add(novaChavePix);
+
+                    System.out.println("Chave Pix cadastrada com sucesso!");
+                }
+            }
+
             if (opcao == 9) {
                 System.out.println("=== Submenu ====");
                 System.out.println("1. Submenu A - Operações de Conta");
@@ -107,11 +217,11 @@ public class Main {
                 System.out.println("0. Voltar");
                 System.out.print("Escolha: ");
                 int sub = entrada.nextInt();
-                if (!entrada.hasNextInt()) {
+                /*if (!entrada.hasNextInt()) {
                     System.out.println("Resposta inválida.");
                     entrada.nextLine();
                     continue;
-                }
+                }*/
 
                 if (sub == 1) { //Submenu A
                     while (true) {
@@ -119,16 +229,16 @@ public class Main {
                         System.out.println("1. Depositar dinheiro");
                         System.out.println("2. Sacar dinheiro");
                         System.out.println("3. Consultar saldo");
-                        System.out.println("4. Voltar");
+                        System.out.println("4. Sair");
                         System.out.print("Escolha: ");
 
                         int opcao1 = entrada.nextInt();
 
-                        if (!entrada.hasNextInt()) {
+                        /*if (!entrada.hasNextInt()) {
                             System.out.println("Resposta inválida.");
                             entrada.nextLine();  // limpa o buffer
                             continue;  // volta pro início do while
-                        }
+                        }*/
 
                         entrada.nextLine(); // limpa buffer
                         System.out.print("Digite o número da conta: ");
@@ -168,7 +278,7 @@ public class Main {
                                 contaSelecionada.consultarSaldo();
                                 break;
                             case 4:
-                                return;  // volta pro menu principal
+                                return;  // sair
                             default:
                                 System.out.println("Opção inválida.");
                         }
@@ -184,11 +294,11 @@ public class Main {
                         System.out.print("Escolha: ");
                         int opcao2 = entrada.nextInt();
 
-                        if (!entrada.hasNextInt()) {
+                        /*if (!entrada.hasNextInt()) {
                             System.out.println("Resposta inválida.");
                             entrada.nextLine();  // limpa o buffer
                             continue;
-                        }
+                        }*/
 
                         switch (opcao2) {
                             case 1:
@@ -213,6 +323,11 @@ public class Main {
                     System.out.println("Opção inválida.");
                 }
                 continue;
+            }
+            
+            if (opcao == 10) {
+                System.out.println("Saindo...");
+                break;
             }
 
             System.out.println("Você escolheu a opção: " + opcao);
