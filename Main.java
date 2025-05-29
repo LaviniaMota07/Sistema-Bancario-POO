@@ -9,6 +9,8 @@ public class Main {
         ArrayList<Emprestimo> emprestimos = new ArrayList<>();
         ArrayList<Gerente> gerentes = new ArrayList<>();
         ArrayList<Transacao> transacoes = new ArrayList<>();
+        ArrayList<ContaPoupanca> contasPoupanca = new ArrayList<>();
+
 
         while (true) {
             System.out.println("===== Banco em Java =====");
@@ -21,17 +23,13 @@ public class Main {
             System.out.println("7. Solicitar Empréstimo");
             System.out.println("8. Cadastrar Chave Pix");
             System.out.println("9. Ir para submenus");
-            System.out.println("10. Sair");
+            System.out.println("10. Abrir Conta Poupança");
+            System.out.println("11. Sair");
             System.out.print("Escolha uma opção: ");
             int opcao = entrada.nextInt();
 
-            /*if (!entrada.hasNextInt()) {
-                System.out.println("Resposta inválida.");
-                entrada.nextLine();
-                continue;
-            }*/
 
-            if (opcao < 1 || opcao > 10) {
+            if (opcao < 1 || opcao > 11) {
                 System.out.println("Resposta inválida.");
                 continue;
             }
@@ -341,11 +339,7 @@ public class Main {
                 System.out.println("0. Voltar");
                 System.out.print("Escolha: ");
                 int sub = entrada.nextInt();
-                /*if (!entrada.hasNextInt()) {
-                    System.out.println("Resposta inválida.");
-                    entrada.nextLine();
-                    continue;
-                }*/
+
 
                 if (sub == 1) { //Submenu A
                     while (true) {
@@ -357,12 +351,6 @@ public class Main {
                         System.out.print("Escolha: ");
 
                         int opcao1 = entrada.nextInt();
-
-                        /*if (!entrada.hasNextInt()) {
-                            System.out.println("Resposta inválida.");
-                            entrada.nextLine();  // limpa o buffer
-                            continue;  // volta pro início do while
-                        }*/
 
                         entrada.nextLine(); // limpa buffer
                         System.out.print("Digite o número da conta: ");
@@ -418,12 +406,6 @@ public class Main {
                         System.out.print("Escolha: ");
                         int opcao2 = entrada.nextInt();
 
-                        /*if (!entrada.hasNextInt()) {
-                            System.out.println("Resposta inválida.");
-                            entrada.nextLine();  // limpa o buffer
-                            continue;
-                        }*/
-
                         switch (opcao2) {
                             case 1:
                                 System.out.println("Listando clientes...");
@@ -448,8 +430,45 @@ public class Main {
                 }
                 continue;
             }
-            
-            if (opcao == 10) {
+
+            if(opcao == 10){
+                entrada.nextLine(); // limpa o buffer
+
+                System.out.print("Número da conta: ");
+                String numeroConta = entrada.nextLine();
+
+                System.out.print("Taxa de juros (%): ");
+                double taxaJuros = entrada.nextDouble();
+
+                entrada.nextLine(); // limpa o buffer
+                System.out.print("Nome do titular: ");
+                String titular = entrada.nextLine();
+
+                System.out.print("Saldo inicial: ");
+                double saldo = entrada.nextDouble();
+
+                entrada.nextLine(); // limpa o buffer
+                System.out.print("Data de abertura (YYYY-MM-DD): ");
+                String dataAbertura = entrada.nextLine();
+
+                System.out.print("Status (Ativa/Inativa): ");
+                String ativa = entrada.nextLine();
+
+                System.out.print("Agenda (Mensal/Anual): ");
+                String agenda = entrada.nextLine();
+
+                ContaPoupanca novaContaPoupanca = new ContaPoupanca(
+                    numeroConta, taxaJuros, titular, saldo, dataAbertura, ativa, agenda
+                );
+
+                contasPoupanca.add(novaContaPoupanca);
+
+                System.out.println("Conta Poupança criada com sucesso!");
+                System.out.println("Titular: " + novaContaPoupanca.getTitular());
+                System.out.println("Saldo: R$" + novaContaPoupanca.getSaldo());
+            }
+                        
+            if (opcao == 11) {
                 System.out.println("Saindo...");
                 break;
             }
